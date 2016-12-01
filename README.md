@@ -48,7 +48,7 @@ Creating member2
 
 After few minutes all containers will be up, check it with [Spring Boot Admin service](http://localhost:9002):
 
-[Spring Boot Admin picture 1](https://github.com/xxlabaza/hazelcast_eureka/blob/master/images/1.png)
+![Spring Boot Admin picture 1](https://github.com/xxlabaza/hazelcast_eureka/blob/master/images/1.png?raw=true)
 
 As you can see there are 2 hazelcast members (this info is from Eureka). You can also ask one of hazelcast member about cluster:
 
@@ -121,7 +121,7 @@ Stopping member2 ... done
 
 After that, check Spring Boot Admin:
 
-[Spring Boot Admin picture 2](https://github.com/xxlabaza/hazelcast_eureka/blob/master/images/2.png)
+![Spring Boot Admin picture 2](https://github.com/xxlabaza/hazelcast_eureka/blob/master/images/2.png?raw=true)
 
 And cluster info:
 
@@ -171,7 +171,7 @@ Starting member2 ... done
 
 Spring Boot Admin:
 
-[Spring Boot Admin picture 3](https://github.com/xxlabaza/hazelcast_eureka/blob/master/images/3.png)
+![Spring Boot Admin picture 3](https://github.com/xxlabaza/hazelcast_eureka/blob/master/images/3.png?raw=true)
 
 Hazelcast cluster info:
 
