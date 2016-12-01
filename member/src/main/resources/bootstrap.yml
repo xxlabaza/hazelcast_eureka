@@ -1,0 +1,44 @@
+
+project:
+  artifactId:   ''
+  name:         ''
+  version:      ''
+  description:  ''
+info:
+  build:
+    artifact:       '@project.artifactId@'
+    name:           '@project.name@'
+    description:    '@project.description@'
+    version:        '@project.version@'
+
+spring:
+  application:
+    name: hazelcast-member
+  cloud:
+    config:
+      discovery.enabled: true
+      failFast: true
+      retry:
+        initialInterval:  5000
+        multiplier:       1.1
+        maxAttempts:      20
+        maxInterval:      20000
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone:  http://eurekaserver:81G9kf7zYTJrxRqLBnfsk1ItuGHmPiw@localhost:9001/eureka/
+
+# Turns off request to configserver on /health endpoint
+# see https://github.com/spring-cloud/spring-cloud-config/issues/423
+health.config.enabled: false
+
+
+---
+spring:
+  profiles: docker
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone:  http://eurekaserver:81G9kf7zYTJrxRqLBnfsk1ItuGHmPiw@eureka:8080/eureka/

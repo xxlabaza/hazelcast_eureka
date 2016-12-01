@@ -1,0 +1,60 @@
+version: '2'
+
+services:
+
+  configserver:
+    container_name: 'configserver'
+    image:          'xxlabaza/configserver'
+    command:        ['--spring.profiles.active=docker']
+    expose:
+      - "8080"
+    ports:
+      - "9000:8080"
+
+  eureka:
+    container_name: 'eureka'
+    image:          'xxlabaza/eurekaserver'
+    command:        ['--spring.profiles.active=docker']
+    depends_on:
+      - 'configserver'
+    expose:
+      - "8080"
+    ports:
+      - "9001:8080"
+
+  admin:
+    container_name: 'admin'
+    image:          'xxlabaza/admin'
+    command:        ['--spring.profiles.active=docker']
+    depends_on:
+      - 'eureka'
+    expose:
+      - "8080"
+    ports:
+      - "9002:8080"
+
+  member1:
+    container_name: 'member1'
+    image:          'xxlabaza/member'
+    command:        ['--spring.profiles.active=docker']
+    depends_on:
+      - 'eureka'
+    expose:
+      - "8080"
+      - "5701"
+    ports:
+      - "9011:8080"
+      - "9012:5701"
+
+  member2:
+    container_name: 'member2'
+    image:          'xxlabaza/member'
+    command:        ['--spring.profiles.active=docker']
+    depends_on:
+      - 'eureka'
+    expose:
+      - "8080"
+      - "5701"
+    ports:
+      - "9021:8080"
+      - "9022:5701"

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    
+  <modelVersion>4.0.0</modelVersion>
+    
+  <parent>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-parent</artifactId>
+    <version>Camden.RELEASE</version>
+  </parent>
+  
+  <groupId>com.xxlabaza.test</groupId>
+  <artifactId>hazelcast-eureka</artifactId>
+  <version>1.0.0</version>
+  <packaging>pom</packaging>
+    
+  <name>Hazelcast Eureka</name>
+  <description>
+    Spring Boot Cloud based POC for Hazelcast claster discovered by Eureka  
+  </description>
+    
+  <developers>
+    <developer>
+      <name>Artem Labazin</name>
+      <email>artem.labazin@gmail.com</email>
+    </developer>
+  </developers>
+  <inceptionYear>2016</inceptionYear>
+    
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <java.version>1.8</java.version>
+  </properties>
+  
+  <modules>
+    <module>configserver</module>
+    <module>eurekaserver</module>
+    <module>admin</module>
+    <module>member</module>
+  </modules>
+    
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>com.spotify</groupId>
+          <artifactId>docker-maven-plugin</artifactId>
+          <version>0.4.13</version>
+          <executions>
+            <execution>
+              <phase>deploy</phase>
+              <goals>
+                <goal>build</goal>
+              </goals>
+            </execution>
+          </executions>
+          <configuration>
+            <imageName>xxlabaza/${project.artifactId}</imageName>
+            <dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
+            <resources>
+              <resource>
+                <targetPath>/</targetPath>
+                <directory>${project.build.directory}</directory>
+                <include>${project.build.finalName}.jar</include>
+              </resource>
+            </resources>
+            <forceTags>true</forceTags>
+            <imageTags>
+              <imageTag>${project.version}</imageTag>
+              <imageTag>latest</imageTag>
+            </imageTags>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+        
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <mainClass>${start-class}</mainClass>
+          <layout>ZIP</layout>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>repackage</goal>
+              <goal>build-info</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!--
+          Плагин позволяет смаппить информацию из pom-файла в
+          дополнительную информацию к сервису, прописанную в bootstrap.yml
+          Данную информацию можно увидеть по URL /${management.context-path}/info
+          ВАЖНО: для данной функциональности необходим spring-boot-starter-actuator проект в зависимостях
+      -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>3.0.1</version>
+        <configuration>
+          <delimiters>
+            <delimiter>@</delimiter>
+          </delimiters>
+          <nonFilteredFileExtensions>
+            <nonFilteredFileExtension>jks</nonFilteredFileExtension>
+          </nonFilteredFileExtensions>
+        </configuration>
+      </plugin>
+
+      <!--
+          Плагин позволяет смаппить информацию из текущего git-статуса (имя ветки, дата коммита, время коммита) в
+          дополнительную информацию к сервису, прописанную в git.properties.
+          Данную информацию можно увидеть по URL /${management.context-path}/info
+          ВАЖНО: для данной функциональности необходим spring-boot-starter-actuator проект в зависимостях
+      -->
+      <!--      <plugin>
+        <groupId>pl.project13.maven</groupId>
+        <artifactId>git-commit-id-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>revision</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <prefix>git</prefix>
+          <dateFormat>dd/MM/yyyy HH:mm:ss z</dateFormat>
+          <verbose>false</verbose>
+          <dotGitDirectory>${project.basedir}/../.git</dotGitDirectory>
+        </configuration>
+      </plugin>-->
+    </plugins>
+  </build>
+</project>

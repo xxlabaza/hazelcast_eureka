@@ -1,0 +1,46 @@
+
+project:
+  artifactId:   ''
+  name:         ''
+  version:      ''
+  description:  ''
+info:
+  build:
+    artifact:       '@project.artifactId@'
+    name:           '@project.name@'
+    description:    '@project.description@'
+    version:        '@project.version@'
+
+spring:
+  application:
+    name: configserver  # по этому имени, по умолчанию, все остальные сервисы будут исать канфиг сервер. Иначе, надо у всех клиентов менять spring.cloud.config.discovery.serviceId
+  profiles.active: native
+  cloud:
+    config:
+      server:
+        bootstrap: true # флаг говорит серверу, что он должен конфигурировать себя из собственного репозитория
+        git:
+          uri: file:../configurations
+
+security:
+  user:
+    name:       configserver
+    password:   shhInkR0DWXv09tBzVfGw4tZVOeMFle
+
+encrypt:
+  failOnError: true
+  keyStore:
+    location:   classpath:/keystore.jks
+    password:   fUFtK35rlyaeONRD74iWp1Ydz0k6oaW
+    alias:      ConfigServerKeyStoreAlias
+    secret:     GCQDbJkzhkH9C4RJlct7n3npRUhcX3h
+
+
+---
+spring:
+  profiles: docker
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/xxlabaza/hazelcast_eureka_configurations.git

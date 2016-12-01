@@ -1,0 +1,35 @@
+
+project:
+  artifactId:   ''
+  name:         ''
+  version:      ''
+  description:  ''
+info:
+  build:
+    artifact:       '@project.artifactId@'
+    name:           '@project.name@'
+    description:    '@project.description@'
+    version:        '@project.version@'
+
+spring:
+  application:
+    name: eureka
+  cloud:
+    config:
+      uri:      http://localhost:9000
+      username: configserver
+      password: shhInkR0DWXv09tBzVfGw4tZVOeMFle
+      failFast: true
+      retry:
+        initialInterval:  5000
+        multiplier:       1.1
+        maxAttempts:      20
+        maxInterval:      20000
+
+
+---
+spring:
+  profiles: docker
+  cloud:
+    config:
+      uri:      http://configserver:8080

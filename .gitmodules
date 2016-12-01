@@ -1,0 +1,3 @@
+[submodule "configurations"]
+	path = configurations
+	url = git@github.com:xxlabaza/hazelcast_eureka_configurations.git
